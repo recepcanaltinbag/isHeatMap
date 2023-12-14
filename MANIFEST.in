@@ -1,0 +1,9 @@
+#misc
+include LICENSE
+
+#executables
+include isheatmap/executables/blastn
+include isheatmap/executables/makeblastdb
+
+#testdata
+include isheatmap/testdata *
