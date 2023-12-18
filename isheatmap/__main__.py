@@ -1,12 +1,23 @@
 
-from heat_functions import *
+try:
+    from isheatmap.heat_functions import *
+except:
+    print('s')
+
+
+try:
+    from heat_functions import *
+except:
+    print('a')
+
+
 import sys
 import argparse
 import datetime
 import os
 import textwrap
 
-version = '1.0.0'
+version = '1.0.9'
 
 the_red_code = "\033[91m"
 the_normal = "\033[0m"
@@ -21,7 +32,7 @@ the_logo =  f'''
                                                      | |    
                                                      |_|    '''
 
-if __name__ == "__main__":
+def main():
 
     description = the_logo + ''' \nisHeatMap is created to find dominant insertion sequences in the genome and the relation between them. It uses the output of ISEScan program and creates a heatmap.
     '''
@@ -95,7 +106,12 @@ if __name__ == "__main__":
                     SeqIO.write(other_fasta_records(records, seqIDinFastaFile), os.path.join(row_seq_file,"subject.fasta"), "fasta")
                     SeqIO.write(record_dict[seqIDinFastaFile], os.path.join(row_seq_file,"query.fasta"), "fasta")
                     
-                    q_vs_s_score_list_final.extend(blast_driver("./isheatmap/executables/makeblastdb", "./isheatmap/executables/blastn", row_seq_file, os.path.join(row_seq_file,"subject.fasta"),  os.path.join(row_seq_file,"query.fasta"), []))
+                    #print(os.getcwd())
+                    this_dir, this_filename = os.path.split(__file__)
+                    #print(this_dir)
+
+                    os.chmod(f"{this_dir}/executables/makeblastdb", 0o755)
+                    q_vs_s_score_list_final.extend(blast_driver(f"{this_dir}/executables/makeblastdb", f"{this_dir}/executables/blastn", row_seq_file, os.path.join(row_seq_file,"subject.fasta"),  os.path.join(row_seq_file,"query.fasta"), []))
                     is_dict[seqIDinFastaFile] = row['family']
 
 
@@ -141,3 +157,7 @@ if __name__ == "__main__":
         print('\n\nisHeatMap ends at ', datetime.datetime.now().ctime())
 
         print('Please cite if the program is helpful :)')
+
+
+if __name__ == "__main__":
+    main()

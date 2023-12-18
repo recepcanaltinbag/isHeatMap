@@ -6,4 +6,4 @@ include isheatmap/executables/blastn
 include isheatmap/executables/makeblastdb
 
 #testdata
-include isheatmap/testdata *
+include isheatmap/test_data *
